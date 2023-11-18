@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto_moviles/screens/login.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
-  runApp(const MainApp());
+Future <void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp( MainApp());
+
 }
 
 class MainApp extends StatelessWidget {
@@ -10,11 +15,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Proyecto Final Programacion Movil 👨‍💻'),
-        ),
-      ),
+      home: login_screen(),
     );
   }
 }
