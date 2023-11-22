@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:proyecto_moviles/firebase/EmailAuth.dart';
+import 'package:proyecto_moviles/firebase/googleAuth.dart';
+import 'package:proyecto_moviles/user_preferences_dev.dart';
+import 'package:proyecto_moviles/widgets/alert_widget.dart';
 import 'package:proyecto_moviles/widgets/dialog_widget.dart';
 import 'package:proyecto_moviles/widgets/email_field.dart';
 import 'package:proyecto_moviles/widgets/password_field.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
+import 'package:proyecto_moviles/provider/user_provider.dart';
 
 class login_screen extends StatefulWidget {
   const login_screen({super.key});
@@ -17,26 +22,28 @@ class _login_screenState extends State<login_screen> {
   final emailAuth = EmailAuth();
   bool loginFailed = false;
   //ApiUser apiUser =ApiUser();
-
-//se crean los objetos
+late EmailField emailField;  // Añade 'late' aquí
+late PassField passField; 
+GlobalKey<FormState> formkey = GlobalKey<FormState>();
+/*se crean los objetos
   EmailField emailField = EmailField(
     label: "Email",
     hint: "Email",
     msError: "Email or password wrong",
   );
   PassField passField = PassField(
-      label: "Password", hint: "Password", msError: "Email or password error");
+      label: "Password", hint: "Password", msError: "Email or password error");*/
 
   bool isShow = false;
   var controllerEmail;
-  final btnGoogle = SocialLoginButton(
+  /*final btnGoogle = SocialLoginButton(
     buttonType: SocialLoginButtonType.google,
     text: "",
-    width: 77,
+    width: 60,
     borderRadius: 15,
     mode: SocialLoginButtonMode.single,
     onPressed: () {},
-  );
+  );*/
   final btnApple = SocialLoginButton(
     buttonType: SocialLoginButtonType.github,
     text: "",
@@ -54,14 +61,23 @@ class _login_screenState extends State<login_screen> {
     mode: SocialLoginButtonMode.single,
     onPressed: () {},
   );
+ @override
+  void initState() {
+    super.initState();
+    emailField = EmailField(
+      label: "Email",
+      hint: "Email",
+      msError: "Email or password wrong",
+    );
+    passField =PassField();
+  }
 
   bool validateForm() {
     if (loginFailed) {
       if (emailField.msError == "Email or password wrong" &&
           !emailField.formkey.currentState!.validate()) {
         return true;
-      } else if (passField.msError == "Email or password wrong" &&
-          !passField.formkey.currentState!.validate()) {
+      } else if (passField.error == "Email or password wrong" && !passField.formkey.currentState!.validate()) {
         return true;
       }
     }
@@ -73,35 +89,73 @@ class _login_screenState extends State<login_screen> {
     return false;
   }
 
-  GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  
   @override
   Widget build(BuildContext context) {
-    DialogWidget dialogWidget = DialogWidget(context: context);
+  GoogleAuth _googleAuth = GoogleAuth();
+  DialogWidget dialogWidget = DialogWidget(context: context);
+  final userProvider = Provider.of<UserProvider>(context, listen: false);
+  
 
-/*se hace la peticion
+//se hace la peticion
     Future<void> login() async{
-      final userModel = UserModel(
-        email: emailField.controler,
-        password: passField.controler);
-        dialogWidget.showProgress();
-        var response =await apiUser.login(userModel);
+      dialogWidget.showProgress();
+
+  // Llamada al método validateUser de emailAuth
+  bool res = await emailAuth.validateUser(
+    emailUser: emailField.controler,
+    pwdUser: passField.controlador,
+  );
+      
         dialogWidget.closeprogress();
-      if(!response.containsKey("Error")){
+      if(res){
         //si todo bien al loguearse manda a la ventana de home con la sigiente linea
-        Navigator.pushNamed(context, "/home");
+        Navigator.pushNamed(context, "/dash");
       }else{
         loginFailed = true;
-        if(response["Error"]=="Login failed"){
+        ////if(response["Error"]=="Login failed"){
           emailField.error=true;
           emailField.formkey.currentState!.validate();
           passField.error=true;
           passField.formkey.currentState!.validate();
-        }else if(response["Error"]== "Tiempo de espera agotado"){
+       // }else if(response["Error"]== "Tiempo de espera agotado"){
               dialogWidget.showErrorDialog("tiempo de espera agotado", "Verifica tu conexion a internet e intente mas tarde");
         }
       }
+       
+       
+       final btnRedirectReg = ElevatedButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/register');
+        },
+        child: const Text('Completar registro'));
 
-    }*/
+    final btnGoogle = SocialLoginButton(
+      width: 77,
+      text: "",
+      buttonType: SocialLoginButtonType.google,
+      mode: SocialLoginButtonMode.multi,
+      onPressed: () {
+        _googleAuth.signInWithGoogle().then((value) {
+          if (value == 'logged-successful') {
+            //redireccionar al dashboard
+            /*AlertWidget.showMessage(
+                context, 'Acceso exitoso', 'Has ingresado a tu cuenta');
+            userProvider.setUserData(UserPreferencesDev.getUserObject());*/
+            Navigator.pushNamed(context, '/dash');
+          } else if (value == 'logged-without-info') {
+            //redireccionar al register_screen - RegisterScreen debe
+            AlertWidget.showMessageWithActions(
+                context,
+                'Creación exitoso',
+                'Tu cuenta de google ha sido creada correctamente, procede a completar el registro porfavor',
+                [btnRedirectReg]);
+          }
+        });
+      },
+      borderRadius: 15,
+    );
+    
 
     final btnLogin = Padding(
       padding: const EdgeInsets.all(8.0),
@@ -111,7 +165,8 @@ class _login_screenState extends State<login_screen> {
         borderRadius: 15,
         onPressed: () async {
           if (validateForm()) {
-            //login(); aqui debe ir el metodo que hace el login
+            login();
+            /*/login(); aqui debe ir el metodo que hace el login
             bool res = await emailAuth.validateUser(
               emailUser: emailField.controler,
               pwdUser: passField.controler,
@@ -121,7 +176,7 @@ class _login_screenState extends State<login_screen> {
             } else {
               // caso en el que la autenticación falla
               // mostrar un mensaje de error etc.
-            }
+            }*/
           }
         },
       ),
@@ -138,10 +193,10 @@ class _login_screenState extends State<login_screen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset("image/logo.webp",
+                  Image.asset("assets/images/logo.webp",
                       height: 100, width: 250, fit: BoxFit.contain),
                   Image.asset(
-                    "image/login_img.gif",
+                    "assets/images/login_img.gif",
                     height: 250,
                     width: 250,
                   ),
