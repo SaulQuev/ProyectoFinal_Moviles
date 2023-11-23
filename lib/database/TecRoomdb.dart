@@ -29,7 +29,8 @@ class Agenda {
     task_name varchar(50), task_desc varchar(50),task_state integer, expiration_date varchar(100), alert_date varchar(100),
     teacher_id integer, foreign key (teacher_id) references teachers(teacher_id))''';
 
-    String class1 = '''create table class(class_id integer primary key, class_name varchar(100))''';
+    String class1 =
+        '''create table class(class_id integer primary key, class_name varchar(100))''';
 
     String teachers = '''create table teachers(teacher_id integer primary key,
     teacher_name varchar(100), teacher_email varchar(100), class_id integer, foreign key (class_id) references class(class_id)) ''';

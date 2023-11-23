@@ -9,6 +9,7 @@ import 'package:proyecto_moviles/firebase/database.dart';
 class GoogleAuth {
   GoogleSignIn? _googleSignIn;
   bool? hasData;
+  final FirebaseAuth _auth= FirebaseAuth.instance;
 
   Future<String> signInWithGoogle() async {
     String tokenDevice = AppPreferences.token;
@@ -19,24 +20,38 @@ class GoogleAuth {
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;
 
-      final credential = GoogleAuthProvider.credential(
+      final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
 
       //verificar si existe registro de usuario en Firestorage, si existe solo iniciar ssesión. si no existe redirigir a register_screen
       final user = await FirebaseAuth.instance.signInWithCredential(
-          credential); //agregar credenciales a preferencias de usuario
+          credential); 
+          
+          /*agregar credenciales a preferencias de usuario
       FirebaseFirestore firestore = FirebaseFirestore.instance;
       DocumentReference documentReference =
           firestore.collection('usuarios').doc(user.user!.uid);
-      await documentReference.update({'tokenDevice': tokenDevice});
+      await documentReference.update({'tokenDevice': tokenDevice});*/
 
-      if (await hasUserData(user.user!.uid)) {
+      /*if (await hasUserData(user.user!.uid)) {
         await Database.saveUserPrefs(user);
 
         return 'logged-successful';
       }
-      return 'logged-without-info';
+      return 'logged-without-info';*/
+       return 'logged-successful';
     } on FirebaseAuthException catch (e) {
+      print('FirebaseAuthException caught:');
+    print('Code: ${e.code}');
+    print('Message: ${e.message}');
+    
+    // Puedes imprimir detalles adicionales según la necesidad
+    // Por ejemplo, para obtener más detalles sobre la ApiException de Google Sign-In:
+    if (e.code == 'sign_in_failed') {
+      print('Google Sign-In ApiException details:');
+      print('Google Sign-In Status Code: ${e.code}');
+      print('Google Sign-In Status Message: ${e.message}');
+    }
       return e.code;
     }
   }

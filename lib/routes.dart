@@ -3,6 +3,7 @@ import 'package:proyecto_moviles/screens/add_class_screen.dart';
 import 'package:proyecto_moviles/screens/add_task_screen.dart';
 import 'package:proyecto_moviles/screens/add_teacher_screen.dart';
 import 'package:proyecto_moviles/screens/calendar_screen.dart';
+import 'package:proyecto_moviles/screens/cambio_foto.dart';
 import 'package:proyecto_moviles/screens/class_screen.dart';
 import 'package:proyecto_moviles/screens/dashboard_screen.dart';
 import 'package:proyecto_moviles/screens/login.dart';
@@ -27,5 +28,6 @@ Map<String, WidgetBuilder> getRoutes() {
     '/calendar': (BuildContext context) => const CalendarScreen(),
     '/register': (BuildContext context) => const RegisterScreen(),
     '/maps': (BuildContext context) => const MapSample(),
+    '/Foto': (BuildContext context) => const CambioFoto(),
   };
 }

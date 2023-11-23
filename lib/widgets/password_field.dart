@@ -60,7 +60,7 @@ class  _PassFieldState extends State <PassField> {
            suffixIcon: Container(margin: const EdgeInsets.only(left: 14, right: 14),
             child: IconButton(
               icon: Icon(
-                widget.isShow ?  Icons.visibility : Icons.visibility_off ,
+                widget.isShow ?  Icons.visibility_off :  Icons.visibility,
               color: widget.isShow ?  Colors.purple : Colors.white,
               ),
               onPressed: () { 

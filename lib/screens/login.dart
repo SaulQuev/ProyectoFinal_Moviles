@@ -131,7 +131,7 @@ GlobalKey<FormState> formkey = GlobalKey<FormState>();
         child: const Text('Completar registro'));
 
     final btnGoogle = SocialLoginButton(
-      width: 77,
+      width: 122,
       text: "",
       buttonType: SocialLoginButtonType.google,
       mode: SocialLoginButtonMode.multi,
@@ -143,14 +143,14 @@ GlobalKey<FormState> formkey = GlobalKey<FormState>();
                 context, 'Acceso exitoso', 'Has ingresado a tu cuenta');
             userProvider.setUserData(UserPreferencesDev.getUserObject());*/
             Navigator.pushNamed(context, '/dash');
-          } else if (value == 'logged-without-info') {
+          }/*else if (value == 'logged-without-info') {
             //redireccionar al register_screen - RegisterScreen debe
             AlertWidget.showMessageWithActions(
                 context,
                 'Creación exitoso',
                 'Tu cuenta de google ha sido creada correctamente, procede a completar el registro porfavor',
                 [btnRedirectReg]);
-          }
+          }*/
         });
       },
       borderRadius: 15,

@@ -1,6 +1,7 @@
+
 import 'package:flutter/material.dart';
+
 import 'package:day_night_switcher/day_night_switcher.dart';
-import 'package:flutter/material.dart';
 import 'package:proyecto_moviles/styles/global_values.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,6 +13,8 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  var img;
+   late String img64;
   @override
   Widget build(BuildContext context) {
     //PROBAR CAMBIO EN EL TITULO DE LA PANTALLA
@@ -40,13 +43,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Drawer(
       child: ListView(
         children: [
-          const UserAccountsDrawerHeader(
-            currentAccountPicture: CircleAvatar(
-            backgroundImage: NetworkImage('https://scontent.fcyw4-1.fna.fbcdn.net/v/t1.6435-9/147282030_3758020080926332_2824307540345505213_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=be3454&_nc_ohc=2KIApUETjWcAX_iBwLT&_nc_ht=scontent.fcyw4-1.fna&oh=00_AfB8uR83t7Rc-W1iT-dfqZIIHjPdPw3YTvTc3Tk9wzx9PQ&oe=657EB2A7'),//'https://i.pravatar.cc/300'
+         GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, '/Foto');
+          },
+           child: const UserAccountsDrawerHeader(
+              currentAccountPicture: CircleAvatar(
+              backgroundImage: NetworkImage('https://scontent.fcyw4-1.fna.fbcdn.net/v/t1.6435-9/147282030_3758020080926332_2824307540345505213_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=be3454&_nc_ohc=2KIApUETjWcAX_iBwLT&_nc_ht=scontent.fcyw4-1.fna&oh=00_AfB8uR83t7Rc-W1iT-dfqZIIHjPdPw3YTvTc3Tk9wzx9PQ&oe=657EB2A7'),//'https://i.pravatar.cc/300'
+              ),
+              
+              
+              
+              accountName: Text('Saul Quevedo Hernandez'),
+              accountEmail: Text('19030099@itcelaya.edu.mx'),
             ),
-            accountName: Text('Saul Quevedo Hernandez'),
-            accountEmail: Text('19030099@itcelaya.edu.mx'),
-          ),
+         ),
           ListTile(
             leading: Image.asset('assets/images/tecno.png'),
             trailing: const Icon(Icons.chevron_right),

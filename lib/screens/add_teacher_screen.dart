@@ -30,7 +30,7 @@ class _AddTeacherScreenState extends State<AddTeacherScreen> {
       txtContTeacherEmail.text = widget.teacherModel!.teacher_email!;
       getClass();
     } else {
-      getClass();
+      getClasses();
     }
   }
 
@@ -116,7 +116,8 @@ class _AddTeacherScreenState extends State<AddTeacherScreen> {
           }
           GlobalValues.flag_database.value = !GlobalValues.flag_database.value;
         },
-        child: const Text("Guardar"));
+        child: const Text("Guardar")
+      );
 
     final DropdownButton dropDownButtonClass = DropdownButton(
         value: dropDownValue,
