@@ -59,6 +59,7 @@ class _CambioFotoState extends State<CambioFoto> {
     }
 
         var userId = currentUser.uid;
+        
         await _firestore.collection('users').doc(userId).update({
           'profileImageUrl': imageUrl,
         });
