@@ -40,7 +40,7 @@ class _CambioFotoState extends State<CambioFoto> {
       }
         var userId = currentUser.uid;
         var imageName = DateTime.now().millisecondsSinceEpoch.toString();
-        var storageRef = _storage.ref().child('profile_images/$userId/$imageName');
+        var storageRef = _storage.ref().child('profile_images/$userId/$imageName.png');
         await storageRef.putFile(File(imageFile.path));
         var imageUrl = await storageRef.getDownloadURL();
         return imageUrl;
@@ -52,6 +52,33 @@ class _CambioFotoState extends State<CambioFoto> {
 
   Future<void> saveImageReferenceInFirestore(String imageUrl) async {
     try {
+    var currentUser = _auth.currentUser;
+    if (currentUser == null) {
+      print('Usuario no autenticado.');
+      throw Exception('Usuario no autenticado');
+    }
+
+    var userId = currentUser.uid;
+    var userCollection = _firestore.collection('users');
+
+    // Verificar si la colección ya existe
+    var collectionExists = await userCollection.get();
+    if (collectionExists.docs.isEmpty) {
+      // Si no existe, créala
+      await userCollection.add({});
+    }
+
+    // Agregar el documento con la URL de la imagen
+    await userCollection.doc(userId).update({
+      'profileImageUrl': imageUrl,
+    });
+  } catch (e) {
+    print('Error al guardar la referencia en Firestore: $e');
+    throw e;
+    }
+
+  }
+    /*try {
       var currentUser = _auth.currentUser;
       if (currentUser == null) {
         print('Usuario no autenticado.');
@@ -66,7 +93,8 @@ class _CambioFotoState extends State<CambioFoto> {
       print('Error al guardar la referencia en Firestore: $e');
       throw e;
     }
-  }
+    */
+  
 
   @override
   Widget build(BuildContext context) {
