@@ -24,7 +24,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
           return Scaffold(
             appBar: AppBar(title: const Text('Bienvenidos a TecRoom 👋')),
             drawer: createDrawer(context),
-          );
+            body: Stack(
+              children:[ Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(
+                      'https://img.freepik.com/vector-premium/diseno-papel-tapiz-regreso-escuela-pizarra_23-2148606150.jpg?w=900'),
+                  fit: BoxFit.cover,
+                  
+                ),
+              ),
+                   )],
+            ));
         });
 
   
