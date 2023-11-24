@@ -7,12 +7,13 @@ import 'package:proyecto_moviles/provider/user_provider.dart';
 import 'package:proyecto_moviles/routes.dart';
 import 'package:proyecto_moviles/screens/dashboard_screen.dart';
 import 'package:proyecto_moviles/screens/login.dart';
+import 'package:proyecto_moviles/screens/onboarding_screen.dart';
 import 'package:proyecto_moviles/styles/global_values.dart';
 import 'package:proyecto_moviles/styles/styles_app.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto_moviles/user_preferences_dev.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'screens/login_screen.dart';
+//import 'screens/login_screen.dart';
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -93,7 +94,8 @@ class _MyAppState extends State<MyApp> {
             child: MaterialApp(
               home: isLogged == true
                   ? const DashboardScreen()
-                  : const login_screen(),
+                  :  ItemScreen(),
+                  //: const login_screen(),
               routes: getRoutes(),
               theme: value
                   ? StylesApp.darkTheme(context)

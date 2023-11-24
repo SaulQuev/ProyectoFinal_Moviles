@@ -7,8 +7,9 @@ import 'package:proyecto_moviles/screens/cambio_foto.dart';
 import 'package:proyecto_moviles/screens/class_screen.dart';
 import 'package:proyecto_moviles/screens/dashboard_screen.dart';
 import 'package:proyecto_moviles/screens/login.dart';
-import 'package:proyecto_moviles/screens/login_screen.dart';
+//import 'package:proyecto_moviles/screens/login_screen.dart';
 import 'package:proyecto_moviles/screens/maps_screen.dart';
+import 'package:proyecto_moviles/screens/onboarding_screen.dart';
 import 'package:proyecto_moviles/screens/provider_screen.dart';
 import 'package:proyecto_moviles/screens/register_screen.dart';
 import 'package:proyecto_moviles/screens/task_screen.dart';
@@ -29,5 +30,6 @@ Map<String, WidgetBuilder> getRoutes() {
     '/register': (BuildContext context) => const RegisterScreen(),
     '/maps': (BuildContext context) => const MapSample(),
     '/Foto': (BuildContext context) => const CambioFoto(),
+    '/item': (BuildContext context) => ItemScreen(),
   };
 }

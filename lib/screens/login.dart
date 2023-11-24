@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto_moviles/firebase/EmailAuth.dart';
 import 'package:proyecto_moviles/firebase/googleAuth.dart';
@@ -18,9 +19,12 @@ class login_screen extends StatefulWidget {
 }
 
 class _login_screenState extends State<login_screen> {
-//s_L S
+
   final emailAuth = EmailAuth();
+  AccessToken? _accessToken;
   bool loginFailed = false;
+   bool _checking = false;
+  Map<String, dynamic>? _userData;
   //ApiUser apiUser =ApiUser();
 late EmailField emailField;  // Añade 'late' aquí
 late PassField passField; 
@@ -36,6 +40,25 @@ GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
   bool isShow = false;
   var controllerEmail;
+  void checkSavedSession() async {
+    final accessToken = await FacebookAuth.instance.accessToken;
+    setState(() {
+      _checking = false;
+    });
+    if(accessToken != null){
+      print(accessToken.toJson());
+      final userData = await FacebookAuth.instance.getUserData();
+      _accessToken = accessToken;
+      setState(() {
+        _userData = userData;
+      });
+    }else{
+      _loginFB();
+    }
+  }
+
+
+  
   /*final btnGoogle = SocialLoginButton(
     buttonType: SocialLoginButtonType.google,
     text: "",
@@ -59,7 +82,9 @@ GlobalKey<FormState> formkey = GlobalKey<FormState>();
     width: 77,
     borderRadius: 15,
     mode: SocialLoginButtonMode.single,
-    onPressed: () {},
+    onPressed:() { 
+      //_loginFB();
+      }
   );
  @override
   void initState() {
@@ -246,5 +271,30 @@ GlobalKey<FormState> formkey = GlobalKey<FormState>();
           ), //en esta columna se ponen varios windgets, text y container solo aceptn 1 widget
         ) //es un widget
         ); //es un contenedor
+  }
+ _loginFB() async {
+  final LoginResult result = await FacebookAuth.instance.login();
+
+  if (result.status == LoginStatus.success) {
+    _accessToken = result.accessToken;
+    final userData = await FacebookAuth.instance.getUserData();
+    _userData = userData;
+  } else {
+    print(result.status);
+    print(result.message);
+  }
+
+  setState(() {
+    _checking = false;
+    Navigator.pushNamed(context, '/dash');
+  });
+}
+
+_logoutFB() async{
+    await FacebookAuth.instance.logOut();
+    _accessToken = null;
+    _userData = null;
+    setState(() {
+    });
   }
 }
