@@ -30,15 +30,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   
   }
   
-  final imgLogo = Container(
-      width: 300,
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-            image: NetworkImage(
-                'https://cdn-icons-png.flaticon.com/512/2919/2919600.png')),
-      ),
-    );
-
+  
   Widget createDrawer(BuildContext context) {
     return Drawer(
       child: ListView(
