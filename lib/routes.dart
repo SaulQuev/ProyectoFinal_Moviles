@@ -7,8 +7,9 @@ import 'package:proyecto_moviles/screens/cambio_foto.dart';
 import 'package:proyecto_moviles/screens/class_screen.dart';
 import 'package:proyecto_moviles/screens/dashboard_screen.dart';
 import 'package:proyecto_moviles/screens/login.dart';
-import 'package:proyecto_moviles/screens/login_screen.dart';
+//import 'package:proyecto_moviles/screens/login_screen.dart';
 import 'package:proyecto_moviles/screens/maps_screen.dart';
+import 'package:proyecto_moviles/screens/onboarding_screen.dart';
 import 'package:proyecto_moviles/screens/provider_screen.dart';
 import 'package:proyecto_moviles/screens/recuperar_pass.dart';
 import 'package:proyecto_moviles/screens/register_screen.dart';
@@ -32,5 +33,6 @@ Map<String, WidgetBuilder> getRoutes() {
     '/Foto': (BuildContext context) => const CambioFoto(),
     '/new_password': (BuildContext context) => const ForgotPasswordScreen(),
 
+    '/item': (BuildContext context) => ItemScreen(),
   };
 }
