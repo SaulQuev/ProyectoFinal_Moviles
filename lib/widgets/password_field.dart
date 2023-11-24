@@ -42,7 +42,7 @@ class  _PassFieldState extends State <PassField> {
                   borderSide: const BorderSide(color: Colors.white),
                   borderRadius: BorderRadius.circular(20)),
             focusedBorder:OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.purple),
+                  borderSide: const BorderSide(color: Colors.green),
                   borderRadius: BorderRadius.circular(20)) ,
                 errorBorder: OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.red),
@@ -61,7 +61,7 @@ class  _PassFieldState extends State <PassField> {
             child: IconButton(
               icon: Icon(
                 widget.isShow ?  Icons.visibility_off :  Icons.visibility,
-              color: widget.isShow ?  Colors.purple : Colors.white,
+              color: widget.isShow ?  Colors.green : Colors.white,
               ),
               onPressed: () { 
                 setState(() {

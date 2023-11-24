@@ -4,6 +4,8 @@ class ItemCardData {
   final String title;
   final String subtitle;
   final ImageProvider image;
+
+
   final Color backgroundColor;
   final Color titleColor;
   final Color subtitleColor;
@@ -59,7 +61,7 @@ class ItemCard extends StatelessWidget {
                   color: data.subtitleColor,
                   fontSize: 16,
                 ),
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.justify,
                 maxLines: 10,
               ),
               const Spacer(flex: 10),

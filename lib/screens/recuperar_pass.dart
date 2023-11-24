@@ -26,7 +26,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       padding: const EdgeInsets.all(8.0),
       child: SocialLoginButton(
         buttonType: SocialLoginButtonType.generalLogin,
-        backgroundColor: Colors.purple,
+        backgroundColor: Colors.green,
         onPressed: () async {
           if (txtEmail.formkey.currentState!.validate()) {
             await FirebaseAuth.instance

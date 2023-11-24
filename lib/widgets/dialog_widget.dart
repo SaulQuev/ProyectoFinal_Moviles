@@ -20,7 +20,7 @@ class DialogWidget{
       msg: "Waiting please",
       msgColor: Colors.white,
       backgroundColor: const Color.fromARGB(255, 21, 21, 21),
-      progressBgColor: Colors.purple,
+      progressBgColor: Colors.green,
       progressValueColor: Colors.pinkAccent,
       barrierColor: Colors.white.withOpacity(0.2)
     );

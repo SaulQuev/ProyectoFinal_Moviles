@@ -89,7 +89,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     padding: const EdgeInsets.all(8.0),
     child: SocialLoginButton(
       buttonType: SocialLoginButtonType.generalLogin,
-      backgroundColor: Colors.purple,
+      backgroundColor: Colors.green,
       borderRadius: 15,
       text: "Register",
       onPressed: () {

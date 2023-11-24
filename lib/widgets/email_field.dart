@@ -34,7 +34,7 @@ class  EmailFieldState extends State <EmailField> {
                 borderSide: const BorderSide(color: Colors.white),
                 borderRadius: BorderRadius.circular(20)),
           focusedBorder:OutlineInputBorder(
-                borderSide: const BorderSide(color: Colors.purple),
+                borderSide: const BorderSide(color: Colors.green),
                 borderRadius: BorderRadius.circular(20)) ,
                 errorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(color: Colors.red),

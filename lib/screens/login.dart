@@ -186,7 +186,7 @@ GlobalKey<FormState> formkey = GlobalKey<FormState>();
       padding: const EdgeInsets.all(8.0),
       child: SocialLoginButton(
         buttonType: SocialLoginButtonType.generalLogin,
-        backgroundColor: Colors.purple,
+        backgroundColor: Colors.green,
         borderRadius: 15,
         onPressed: () async {
           if (validateForm()) {
@@ -256,7 +256,7 @@ GlobalKey<FormState> formkey = GlobalKey<FormState>();
                             },
                             child: const Text(
                               "Create your account",
-                              style: TextStyle(color: Colors.purple),
+                              style: TextStyle(color: Colors.lightGreen),
                             )),
                       )
                     ],
@@ -267,7 +267,7 @@ GlobalKey<FormState> formkey = GlobalKey<FormState>();
                       },
                       child: const Text(
                         "Forget your password",
-                        style: TextStyle(color: Colors.purpleAccent),
+                        style: TextStyle(color: Colors.green),
                       )),
                 ]),
           ), //en esta columna se ponen varios windgets, text y container solo aceptn 1 widget
