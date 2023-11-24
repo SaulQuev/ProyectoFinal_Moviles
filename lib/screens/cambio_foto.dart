@@ -8,7 +8,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class CambioFoto extends StatefulWidget {
   const CambioFoto({super.key});
 
@@ -27,24 +26,25 @@ class _CambioFotoState extends State<CambioFoto> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
-   Future<String> uploadImageToFirebase(XFile? imageFile) async {
+  Future<String> uploadImageToFirebase(XFile? imageFile) async {
     if (imageFile == null) {
-   print('La imagen es nula');
-    return ''; 
-  }
+      print('La imagen es nula');
+      return '';
+    }
     try {
       var currentUser = _auth.currentUser;
       if (currentUser == null) {
-         print('Usuario no autenticado.');
-      throw Exception('Usuario no autenticado');
+        print('Usuario no autenticado.');
+        throw Exception('Usuario no autenticado');
       }
-        var userId = currentUser.uid;
-        var imageName = DateTime.now().millisecondsSinceEpoch.toString();
-        var storageRef = _storage.ref().child('profile_images/$userId/$imageName.png');
-        await storageRef.putFile(File(imageFile.path));
-        var imageUrl = await storageRef.getDownloadURL();
-        return imageUrl;
-     }catch (e) {
+      var userId = currentUser.uid;
+      var imageName = DateTime.now().millisecondsSinceEpoch.toString();
+      var storageRef =
+          _storage.ref().child('profile_images/$userId/$imageName.png');
+      await storageRef.putFile(File(imageFile.path));
+      var imageUrl = await storageRef.getDownloadURL();
+      return imageUrl;
+    } catch (e) {
       print('Error al subir la imagen: $e');
       throw e;
     }
@@ -52,33 +52,29 @@ class _CambioFotoState extends State<CambioFoto> {
 
   Future<void> saveImageReferenceInFirestore(String imageUrl) async {
     try {
-    var currentUser = _auth.currentUser;
-    if (currentUser == null) {
-      print('Usuario no autenticado.');
-      throw Exception('Usuario no autenticado');
+      var currentUser = _auth.currentUser;
+      if (currentUser == null) {
+        print('Usuario no autenticado.');
+        throw Exception('Usuario no autenticado');
+      }
+      var userId = currentUser.uid;
+      var userCollection = _firestore.collection('users');
+      // Verificar si la colección ya existe
+      var collectionExists = await userCollection.get();
+      if (collectionExists.docs.isEmpty) {
+        // Si no existe, créala
+        await userCollection.add({});
+      }
+      // Agregar el documento con la URL de la imagen
+      await userCollection.doc(userId).update({
+        'profileImageUrl': imageUrl,
+      });
+    } catch (e) {
+      print('Error al guardar la referencia en Firestore: $e');
+      throw e;
     }
-
-    var userId = currentUser.uid;
-    var userCollection = _firestore.collection('users');
-
-    // Verificar si la colección ya existe
-    var collectionExists = await userCollection.get();
-    if (collectionExists.docs.isEmpty) {
-      // Si no existe, créala
-      await userCollection.add({});
-    }
-
-    // Agregar el documento con la URL de la imagen
-    await userCollection.doc(userId).update({
-      'profileImageUrl': imageUrl,
-    });
-  } catch (e) {
-    print('Error al guardar la referencia en Firestore: $e');
-    throw e;
-    }
-
   }
-    /*try {
+  /*try {
       var currentUser = _auth.currentUser;
       if (currentUser == null) {
         print('Usuario no autenticado.');
@@ -95,7 +91,6 @@ class _CambioFotoState extends State<CambioFoto> {
       throw e;
     }
     */
-  
 
   @override
   Widget build(BuildContext context) {
@@ -271,10 +266,12 @@ class _CambioFotoState extends State<CambioFoto> {
                                                 setState(() {
                                                   img = File(PickedImage!.path);
                                                 });
-                                                var imageUrl=
-                                                await uploadImageToFirebase(PickedImage);
-                                                
-                                                await saveImageReferenceInFirestore(imageUrl);
+                                                var imageUrl =
+                                                    await uploadImageToFirebase(
+                                                        PickedImage);
+
+                                                await saveImageReferenceInFirestore(
+                                                    imageUrl);
                                                 var bytes =
                                                     await img.readAsBytesSync();
                                                 img64 = base64.encode(bytes);

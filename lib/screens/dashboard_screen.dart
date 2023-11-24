@@ -1,6 +1,9 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:proyecto_moviles/styles/global_values.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,6 +18,43 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   var img;
    late String img64;
+  String? profileImageUrl;
+  bool loading =true;
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  
+  @override
+  void initState() {
+    super.initState();
+    // Llama a una función para obtener la URL de la imagen cuando se carga la pantalla.
+    fetchProfileImageUrl();
+  }
+
+  Future<void> fetchProfileImageUrl() async {
+    try {
+      var currentUser = _auth.currentUser;
+      if (currentUser == null) {
+        print('Usuario no autenticado.');
+        throw Exception('Usuario no autenticado');
+      }
+      var userId = currentUser.uid;
+      var userDoc = await _firestore.collection('users').doc(userId).get();
+      if (userDoc.exists) {
+        // Verifica si el documento del usuario existe en Firestore
+        setState(() {
+          // Actualiza el estado con la URL de la imagen
+          profileImageUrl = userDoc['profileImageUrl'];
+           loading = false;
+        });
+      }
+    } catch (e, stackTrace) {
+      print('Error al obtener la URL de la imagen: $e\n$stackTrace');
+      setState(() {
+        loading = false; // Ha ocurrido un error, establece loading en false
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     //PROBAR CAMBIO EN EL TITULO DE LA PANTALLA

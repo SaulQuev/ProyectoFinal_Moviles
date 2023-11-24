@@ -10,6 +10,7 @@ import 'package:proyecto_moviles/screens/login.dart';
 import 'package:proyecto_moviles/screens/login_screen.dart';
 import 'package:proyecto_moviles/screens/maps_screen.dart';
 import 'package:proyecto_moviles/screens/provider_screen.dart';
+import 'package:proyecto_moviles/screens/recuperar_pass.dart';
 import 'package:proyecto_moviles/screens/register_screen.dart';
 import 'package:proyecto_moviles/screens/task_screen.dart';
 import 'package:proyecto_moviles/screens/teacher_screen.dart';
@@ -29,5 +30,7 @@ Map<String, WidgetBuilder> getRoutes() {
     '/register': (BuildContext context) => const RegisterScreen(),
     '/maps': (BuildContext context) => const MapSample(),
     '/Foto': (BuildContext context) => const CambioFoto(),
+    '/new_password': (BuildContext context) => const ForgotPasswordScreen(),
+
   };
 }
