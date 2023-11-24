@@ -22,7 +22,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         valueListenable: GlobalValues.flagTitle,
         builder: (context, value, _) {
           return Scaffold(
-            appBar: AppBar(title: const Text('Bienvenidos 👋')),
+            appBar: AppBar(title: const Text('Bienvenidos a TecRoom 👋')),
             drawer: createDrawer(context),
           );
         });
@@ -60,12 +60,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
          ),
           ListTile(
             leading: Image.asset('assets/images/tecno.png'),
-            trailing: const Icon(Icons.chevron_right),
+            trailing: const Icon(Icons.verified),
             title: const Text('Instituto Tecnologico de Celaya'),
-            subtitle: const Text('Acerca de...'),
+            /*subtitle: const Text('Acerca de...'),
             onTap: () {
               //Navigator.pushNamed(context, '/item');
-            },
+            },*/
           ),
           ListTile(
             leading: Image.asset('assets/images/carrera.png'),
@@ -99,14 +99,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
             title: const Text('Calendario'),
             onTap: () {
               Navigator.pushNamed(context, '/calendar');
-            },
-          ),
-          ListTile(
-            leading: Image.asset('assets/images/test.png'),
-            trailing: const Icon(Icons.chevron_right),
-            title: const Text('Test Provider'),
-            onTap: () {
-              Navigator.pushNamed(context, '/provider');
             },
           ),
           ListTile(

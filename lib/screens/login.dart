@@ -262,7 +262,9 @@ GlobalKey<FormState> formkey = GlobalKey<FormState>();
                     ],
                   ),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                         Navigator.pushNamed(context, '/new_password');
+                      },
                       child: const Text(
                         "Forget your password",
                         style: TextStyle(color: Colors.purpleAccent),
