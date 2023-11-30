@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
 import 'package:proyecto_moviles/models/task_model.dart';

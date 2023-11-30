@@ -15,6 +15,19 @@ Widget taskWidget(TaskModel task, BuildContext context) {
           return Container(
             margin: const EdgeInsets.only(bottom: 5),
             padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+            color: Colors.white, // Color de fondo del contenedor
+            borderRadius: BorderRadius.circular(20.0), // Bordes redondeados
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+            
             child: Row(
               children: [
                 Column(
@@ -25,14 +38,16 @@ Widget taskWidget(TaskModel task, BuildContext context) {
                       maxLines: 2,
                       textAlign: TextAlign.left,
                       style: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.bold),
+                          fontSize: 14, fontWeight: FontWeight.bold,
+                          color: Colors.black,),
                     ),
                     const SizedBox(
                       height: 5,
                     ),
                     Text(snapshot.data!.teacher_name!,
                         textAlign: TextAlign.left,
-                        style: const TextStyle(fontSize: 12))
+                        style: const TextStyle(fontSize: 12,
+                        color: Colors.black))
                   ],
                 ),
                 Expanded(child: Container()),

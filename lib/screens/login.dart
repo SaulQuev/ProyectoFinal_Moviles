@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+//import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto_moviles/firebase/EmailAuth.dart';
 import 'package:proyecto_moviles/firebase/googleAuth.dart';
@@ -19,16 +19,15 @@ class login_screen extends StatefulWidget {
 }
 
 class _login_screenState extends State<login_screen> {
-
   final emailAuth = EmailAuth();
-  AccessToken? _accessToken;
+  //AccessToken? _accessToken;
   bool loginFailed = false;
-   bool _checking = false;
+  bool _checking = false;
   Map<String, dynamic>? _userData;
   //ApiUser apiUser =ApiUser();
-late EmailField emailField;  // Añade 'late' aquí
-late PassField passField; 
-GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  late EmailField emailField; // Añade 'late' aquí
+  late PassField passField;
+  GlobalKey<FormState> formkey = GlobalKey<FormState>();
 /*se crean los objetos
   EmailField emailField = EmailField(
     label: "Email",
@@ -40,7 +39,7 @@ GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
   bool isShow = false;
   var controllerEmail;
-  void checkSavedSession() async {
+  /* void checkSavedSession() async {
     final accessToken = await FacebookAuth.instance.accessToken;
     setState(() {
       _checking = false;
@@ -55,10 +54,8 @@ GlobalKey<FormState> formkey = GlobalKey<FormState>();
     }else{
       _loginFB();
     }
-  }
+  }*/
 
-
-  
   /*final btnGoogle = SocialLoginButton(
     buttonType: SocialLoginButtonType.google,
     text: "",
@@ -77,16 +74,15 @@ GlobalKey<FormState> formkey = GlobalKey<FormState>();
   );
 
   final btnFB = SocialLoginButton(
-    buttonType: SocialLoginButtonType.facebook,
-    text: "",
-    width: 77,
-    borderRadius: 15,
-    mode: SocialLoginButtonMode.single,
-    onPressed:() { 
-      //_loginFB();
-      }
-  );
- @override
+      buttonType: SocialLoginButtonType.facebook,
+      text: "",
+      width: 77,
+      borderRadius: 15,
+      mode: SocialLoginButtonMode.single,
+      onPressed: () {
+        //_loginFB();
+      });
+  @override
   void initState() {
     super.initState();
     emailField = EmailField(
@@ -94,7 +90,7 @@ GlobalKey<FormState> formkey = GlobalKey<FormState>();
       hint: "Email",
       msError: "Email or password wrong",
     );
-    passField =PassField();
+    passField = PassField();
   }
 
   bool validateForm() {
@@ -102,7 +98,8 @@ GlobalKey<FormState> formkey = GlobalKey<FormState>();
       if (emailField.msError == "Email or password wrong" &&
           !emailField.formkey.currentState!.validate()) {
         return true;
-      } else if (passField.error == "Email or password wrong" && !passField.formkey.currentState!.validate()) {
+      } else if (passField.error == "Email or password wrong" &&
+          !passField.formkey.currentState!.validate()) {
         return true;
       }
     }
@@ -114,42 +111,40 @@ GlobalKey<FormState> formkey = GlobalKey<FormState>();
     return false;
   }
 
-  
   @override
   Widget build(BuildContext context) {
-  GoogleAuth _googleAuth = GoogleAuth();
-  DialogWidget dialogWidget = DialogWidget(context: context);
-  final userProvider = Provider.of<UserProvider>(context, listen: false);
-  
+    GoogleAuth _googleAuth = GoogleAuth();
+    DialogWidget dialogWidget = DialogWidget(context: context);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
 
 //se hace la peticion
-    Future<void> login() async{
+    Future<void> login() async {
       dialogWidget.showProgress();
 
-  // Llamada al método validateUser de emailAuth
-  bool res = await emailAuth.validateUser(
-    emailUser: emailField.controler,
-    pwdUser: passField.controlador,
-  );
-      
-        dialogWidget.closeprogress();
-      if(res){
+      // Llamada al método validateUser de emailAuth
+      bool res = await emailAuth.validateUser(
+        emailUser: emailField.controler,
+        pwdUser: passField.controlador,
+      );
+
+      dialogWidget.closeprogress();
+      if (res) {
         //si todo bien al loguearse manda a la ventana de home con la sigiente linea
         Navigator.pushNamed(context, "/dash");
-      }else{
+      } else {
         loginFailed = true;
         ////if(response["Error"]=="Login failed"){
-          emailField.error=true;
-          emailField.formkey.currentState!.validate();
-          passField.error=true;
-          passField.formkey.currentState!.validate();
-       // }else if(response["Error"]== "Tiempo de espera agotado"){
-              dialogWidget.showErrorDialog("tiempo de espera agotado", "Verifica tu conexion a internet e intente mas tarde");
-        }
+        emailField.error = true;
+        emailField.formkey.currentState!.validate();
+        passField.error = true;
+        passField.formkey.currentState!.validate();
+        // }else if(response["Error"]== "Tiempo de espera agotado"){
+        dialogWidget.showErrorDialog("tiempo de espera agotado",
+            "Verifica tu conexion a internet e intente mas tarde");
       }
-       
-       
-       final btnRedirectReg = ElevatedButton(
+    }
+
+    final btnRedirectReg = ElevatedButton(
         onPressed: () {
           Navigator.pushNamed(context, '/register');
         },
@@ -168,7 +163,7 @@ GlobalKey<FormState> formkey = GlobalKey<FormState>();
                 context, 'Acceso exitoso', 'Has ingresado a tu cuenta');
             userProvider.setUserData(UserPreferencesDev.getUserObject());*/
             Navigator.pushNamed(context, '/dash');
-          }/*else if (value == 'logged-without-info') {
+          } /*else if (value == 'logged-without-info') {
             //redireccionar al register_screen - RegisterScreen debe
             AlertWidget.showMessageWithActions(
                 context,
@@ -180,7 +175,6 @@ GlobalKey<FormState> formkey = GlobalKey<FormState>();
       },
       borderRadius: 15,
     );
-    
 
     final btnLogin = Padding(
       padding: const EdgeInsets.all(8.0),
@@ -238,7 +232,7 @@ GlobalKey<FormState> formkey = GlobalKey<FormState>();
                   btnLogin,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [btnGoogle,btnApple ,btnFB],
+                    children: [btnGoogle, btnApple, btnFB],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -263,7 +257,7 @@ GlobalKey<FormState> formkey = GlobalKey<FormState>();
                   ),
                   TextButton(
                       onPressed: () {
-                         Navigator.pushNamed(context, '/new_password');
+                        Navigator.pushNamed(context, '/new_password');
                       },
                       child: const Text(
                         "Forget your password",
@@ -274,29 +268,29 @@ GlobalKey<FormState> formkey = GlobalKey<FormState>();
         ) //es un widget
         ); //es un contenedor
   }
- _loginFB() async {
-  final LoginResult result = await FacebookAuth.instance.login();
+/*
+  _loginFB() async {
+    final LoginResult result = await FacebookAuth.instance.login();
 
-  if (result.status == LoginStatus.success) {
-    _accessToken = result.accessToken;
-    final userData = await FacebookAuth.instance.getUserData();
-    _userData = userData;
-  } else {
-    print(result.status);
-    print(result.message);
+    if (result.status == LoginStatus.success) {
+      _accessToken = result.accessToken;
+      final userData = await FacebookAuth.instance.getUserData();
+      _userData = userData;
+    } else {
+      print(result.status);
+      print(result.message);
+    }
+
+    setState(() {
+      _checking = false;
+      Navigator.pushNamed(context, '/dash');
+    });
   }
 
-  setState(() {
-    _checking = false;
-    Navigator.pushNamed(context, '/dash');
-  });
-}
-
-_logoutFB() async{
+  _logoutFB() async {
     await FacebookAuth.instance.logOut();
     _accessToken = null;
     _userData = null;
-    setState(() {
-    });
-  }
+    setState(() {});
+  }*/
 }

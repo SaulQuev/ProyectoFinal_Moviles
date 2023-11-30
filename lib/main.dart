@@ -1,6 +1,8 @@
+import 'package:firebase_app_installations/firebase_app_installations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:proyecto_moviles/firebase/notification_firebase.dart';
 import 'package:proyecto_moviles/provider/filters_provider.dart';
 import 'package:proyecto_moviles/provider/test_provider.dart';
 import 'package:proyecto_moviles/provider/user_provider.dart';
@@ -19,6 +21,8 @@ Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await UserPreferencesDev.preferences();
+   await PushNotificationProvider().initializeApp();
+  String fidO = await FirebaseInstallations.instance.getId();
    final userModel = await UserPreferencesDev.getUserObject();
    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
