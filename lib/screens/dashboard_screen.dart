@@ -1,3 +1,9 @@
+
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_pdf_viewer/easy_pdf_viewer.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:day_night_switcher/day_night_switcher.dart';
@@ -15,11 +21,54 @@ class _DashboardScreenState extends State<DashboardScreen> {
   var img;
   late String img64;
 
-  Future<String?> uploadPDF(String fileName, File file) async{
-    final reference =FirebaseStorage.instance.ref().child("pdfs/$fileName.pdf");
-    //final UploadTask 
+  final FirebaseFirestore _firebaseFirestore=FirebaseFirestore.instance;
+  List<Map<String, dynamic>> pdfData=[];
 
+  Future<String> uploadPDF(String fileName, File file) async{
+    final reference =FirebaseStorage.instance.ref().child("pdfs/$fileName.pdf");
+    final uploadTask = reference.putFile(file);
+    await uploadTask.whenComplete(() {});
+
+    final downloadLink=await reference.getDownloadURL();
+
+    return downloadLink;
   } 
+
+  void pickFile() async{
+  
+  final pickedFile = await FilePicker.platform.pickFiles(
+    type: FileType.custom,
+    allowedExtensions: ['pdf'],
+  );
+  if(pickedFile != null){
+    String fileName = pickedFile.files[0].name;
+    File file=File(pickedFile.files[0].path!);
+    
+    final downloadLink = await uploadPDF(fileName, file);
+
+    _firebaseFirestore.collection("pdfs").add({
+      "name": fileName,
+      "url": downloadLink
+    });
+    print("pdf cargado de manera eitosa");
+
+  }
+  }
+
+  void getAllPdf() async{
+    final results = await _firebaseFirestore.collection("pdfs").get();
+    pdfData=results.docs.map((e) => e.data()).toList();
+
+    setState(() {
+      
+    });
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    getAllPdf();
+  }
 
 
   @override
@@ -32,14 +81,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
               appBar: AppBar(title: const Text('Bienvenidos a TecRoom 👋')),
               drawer: createDrawer(context),
               body: GridView.builder(
-                itemCount: 10,
+                itemCount: pdfData.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2),
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => PdfViewerScreen(pdfURl: pdfData[index]['url'])),);
+                      },
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(),
@@ -53,7 +104,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               width: 100,
                             ),
                             Text(
-                              "Pdf",
+                              pdfData[index]['name'],
                               style: TextStyle(
                                 fontSize: 18,
                               ),
@@ -67,9 +118,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               floatingActionButton: FloatingActionButton(
                 child: Icon(Icons.upload_file),
-                onPressed: () {
-                  
-                },
+                onPressed: pickFile,
               ),
 
               /*Stack(
@@ -178,6 +227,40 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ],
       ),
+    );
+  }
+}
+
+
+
+class PdfViewerScreen extends StatefulWidget{
+  final String pdfURl;
+  const PdfViewerScreen({super.key, required this.pdfURl});
+
+  @override
+  State<PdfViewerScreen> createState()=> _PdfViewerScreenState();
+}
+
+class _PdfViewerScreenState extends State<PdfViewerScreen>{
+  PDFDocument? document;
+  void initialisePDF()async{
+    document= await PDFDocument.fromURL(widget.pdfURl);
+    setState(() {
+      
+    });
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    initialisePDF();
+  }
+
+  @override
+  Widget build (BuildContext context){
+    return Scaffold(
+      body: document != null? PDFViewer(document: document!,
+      ): Center( child: CircularProgressIndicator()),
     );
   }
 }
