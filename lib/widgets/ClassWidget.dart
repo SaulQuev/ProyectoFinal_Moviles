@@ -11,6 +11,18 @@ Widget classWidget(ClassModel class1, BuildContext context) {
   return Container(
     margin: const EdgeInsets.only(bottom: 5),
     padding: const EdgeInsets.all(5),
+    decoration: BoxDecoration(
+            color: Colors.white, // Color de fondo del contenedor
+            borderRadius: BorderRadius.circular(20.0), // Bordes redondeados
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: const Offset(0, 3),
+              ),
+            ],
+      ),
     child: Row(
       children: [
         Column(
@@ -19,7 +31,7 @@ Widget classWidget(ClassModel class1, BuildContext context) {
               class1.class_name!,
               maxLines: 2,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold,color: Colors.black,),
             ),
           ],
         ),

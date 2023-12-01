@@ -1,7 +1,6 @@
 import 'dart:collection';
 
 import 'package:proyecto_moviles/models/task_model.dart';
-//import 'package:table_calendar/table_calendar.dart';
 
 class Event {
   final TaskModel task;

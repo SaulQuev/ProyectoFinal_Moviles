@@ -1,6 +1,9 @@
+import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:firebase_app_installations/firebase_app_installations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:proyecto_moviles/firebase/notificaciones.dart';
 import 'package:proyecto_moviles/provider/filters_provider.dart';
 import 'package:proyecto_moviles/provider/test_provider.dart';
 import 'package:proyecto_moviles/provider/user_provider.dart';
@@ -18,7 +21,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await FirebaseAppCheck.instance.activate();
   await UserPreferencesDev.preferences();
+  await PushNotificationProvider().initializeApp();
+  String fidO = await FirebaseInstallations.instance.getId();
    final userModel = await UserPreferencesDev.getUserObject();
    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
@@ -105,5 +111,3 @@ class _MyAppState extends State<MyApp> {
         });
   }
 }
-
-//CLASE 14

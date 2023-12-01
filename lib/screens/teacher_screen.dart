@@ -25,7 +25,7 @@ class _TeacherScreenState extends State<TeacherScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Administrador de Profes'),
+        title: const Text('Administrador de Profes', style: TextStyle(fontSize: 18,fontFamily: 'HedvigLettersSerif'),),
         actions: [
           IconButton(
               onPressed: () async {

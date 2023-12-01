@@ -68,7 +68,7 @@ class _TaskScreenState extends State<TaskScreen> {
         });
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Administrador de Tareas'),
+        title: const Text('Administrador de Tareas',style: TextStyle(fontSize: 18,fontFamily: 'HedvigLettersSerif'),),
         actions: [
           IconButton(
               onPressed: () async {

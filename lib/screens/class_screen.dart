@@ -24,7 +24,7 @@ class _ClassScreenState extends State<ClassScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Administrador de Clases'),
+        title: const Text('Administrador de Clases',style: TextStyle(fontSize: 18,fontFamily: 'HedvigLettersSerif' ),),
         actions: [
           IconButton(
               onPressed: () {

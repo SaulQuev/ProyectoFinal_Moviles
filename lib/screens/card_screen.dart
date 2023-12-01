@@ -80,7 +80,9 @@ class ItemCard extends StatelessWidget {
                           backgroundColor:
                               Color.fromARGB(255, 20, 82, 1)),
                               
-                      child: const Text("Log In"))),
+                      child: const Text("Log In")
+                      )
+                      ),
                       
               ),
             ],

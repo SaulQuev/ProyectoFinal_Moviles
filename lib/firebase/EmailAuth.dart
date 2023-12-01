@@ -13,11 +13,16 @@ class EmailAuth {
     }
   }
   Future<bool> validateUser({required String emailUser, required String pwdUser})async{
+    try {
     final credentials= await auth.signInWithEmailAndPassword(email: emailUser, password: pwdUser);
     if(credentials.user!.emailVerified){
       return true;
     }else{
       return false;
     }
-  }  
+  }  catch (e) {
+      print('Error al iniciar sesión: $e');
+      return false;
+    }
+  }
 }

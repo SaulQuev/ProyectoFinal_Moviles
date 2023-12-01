@@ -29,11 +29,17 @@ dependencies:
   lottie: ^2.6.0
   concentric_transition: ^1.0.3
   flutter_local_notifications: ^16.1.0
+  firebase_messaging: ^14.7.6
+  file_picker: ^5.2.5
+  easy_pdf_viewer: ^1.0.6
+  firebase_app_installations: ^0.2.4+6
   firebase_core: ^2.21.0
   cloud_firestore: ^4.12.2
   flutter_facebook_auth: ^6.0.3
   firebase_auth: ^4.12.1
   social_login_buttons: ^1.0.7
+  firebase_app_check: ^0.2.1+6
+  cached_network_image: ^3.3.0
   flutter:
     sdk: flutter
 
@@ -47,3 +53,9 @@ flutter:
   assets:
     - assets/images/.
     - assets/animation/.
+
+
+  fonts:
+    - family: HedvigLettersSerif
+      fonts:
+        - asset: fonts/HedvigLettersSerif-Regular-VariableFont_opsz.ttf

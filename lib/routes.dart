@@ -7,7 +7,6 @@ import 'package:proyecto_moviles/screens/cambio_foto.dart';
 import 'package:proyecto_moviles/screens/class_screen.dart';
 import 'package:proyecto_moviles/screens/dashboard_screen.dart';
 import 'package:proyecto_moviles/screens/login.dart';
-//import 'package:proyecto_moviles/screens/login_screen.dart';
 import 'package:proyecto_moviles/screens/maps_screen.dart';
 import 'package:proyecto_moviles/screens/onboarding_screen.dart';
 import 'package:proyecto_moviles/screens/provider_screen.dart';
